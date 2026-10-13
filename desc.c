@@ -32,8 +32,11 @@
 #include "defs.h"
 #include "xstring.h"
 
+extern void msm_audio_invalidate_fd(struct tcb *, int);
+
 SYS_FUNC(close)
 {
+	msm_audio_invalidate_fd(tcp, (int) tcp->u_arg[0]);
 	printfd(tcp, tcp->u_arg[0]);
 
 	return RVAL_DECODED;
@@ -49,6 +52,8 @@ SYS_FUNC(dup)
 static int
 do_dup2(struct tcb *tcp, int flags_arg)
 {
+	if (tcp->u_arg[0] != tcp->u_arg[1])
+		msm_audio_invalidate_fd(tcp, (int) tcp->u_arg[1]);
 	printfd(tcp, tcp->u_arg[0]);
 	tprints(", ");
 	printfd(tcp, tcp->u_arg[1]);

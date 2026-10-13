@@ -85,6 +85,8 @@ cc_binary {
         "inotify_ioctl.c",
         "io.c",
         "ioctl.c",
+        "msm_audio.c",
+        "msm_audio_capture.c",
         "ioperm.c",
         "iopl.c",
         "ioprio.c",

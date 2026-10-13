@@ -249,11 +249,16 @@ ioctl_decode_command_number(struct tcb *tcp)
  *         SYS_FUNC(ioctl) converts RVAL_IOCTL_DECODED flag to RVAL_DECODED,
  *         and passes all other bits of ioctl_decode return value unchanged.
  */
+extern int msm_audio_ioctl(struct tcb *, unsigned int, kernel_ulong_t);
+
 static int
 ioctl_decode(struct tcb *tcp)
 {
 	const unsigned int code = tcp->u_arg[1];
 	const kernel_ulong_t arg = tcp->u_arg[2];
+	int msm_result = msm_audio_ioctl(tcp, code, arg);
+	if (msm_result >= 0)
+		return msm_result;
 
 	switch (_IOC_TYPE(code)) {
 	case '$':

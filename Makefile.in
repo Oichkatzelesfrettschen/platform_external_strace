@@ -335,7 +335,7 @@ am__strace_SOURCES_DIST = access.c affinity.c aio.c alpha.c \
 	fetch_struct_xfs_quotastat.c file_handle.c file_ioctl.c \
 	filter_qualify.c filter.h flock.c flock.h fs_x_ioctl.c futex.c \
 	gcc_compat.h get_robust_list.c getcpu.c getcwd.c getrandom.c \
-	hdio.c hostname.c inotify.c inotify_ioctl.c io.c ioctl.c \
+	hdio.c hostname.c inotify.c inotify_ioctl.c io.c ioctl.c msm_audio.c msm_audio_capture.c msm_audio_capture.h \
 	ioperm.c iopl.c ioprio.c ipc_defs.h ipc_msg.c ipc_msgctl.c \
 	ipc_sem.c ipc_shm.c ipc_shmctl.c kcmp.c kernel_types.h kexec.c \
 	keyctl.c keyctl_kdf_params.h kvm.c largefile_wrappers.h ldt.c \
@@ -417,7 +417,7 @@ am_strace_OBJECTS = strace-access.$(OBJEXT) strace-affinity.$(OBJEXT) \
 	strace-getcwd.$(OBJEXT) strace-getrandom.$(OBJEXT) \
 	strace-hdio.$(OBJEXT) strace-hostname.$(OBJEXT) \
 	strace-inotify.$(OBJEXT) strace-inotify_ioctl.$(OBJEXT) \
-	strace-io.$(OBJEXT) strace-ioctl.$(OBJEXT) \
+	strace-io.$(OBJEXT) strace-ioctl.$(OBJEXT) strace-msm_audio.$(OBJEXT) strace-msm_audio_capture.$(OBJEXT) \
 	strace-ioperm.$(OBJEXT) strace-iopl.$(OBJEXT) \
 	strace-ioprio.$(OBJEXT) strace-ipc_msg.$(OBJEXT) \
 	strace-ipc_msgctl.$(OBJEXT) strace-ipc_sem.$(OBJEXT) \
@@ -1361,7 +1361,7 @@ strace_SOURCES = access.c affinity.c aio.c alpha.c arch_defs.h \
 	file_handle.c file_ioctl.c filter_qualify.c filter.h flock.c \
 	flock.h fs_x_ioctl.c futex.c gcc_compat.h get_robust_list.c \
 	getcpu.c getcwd.c getrandom.c hdio.c hostname.c inotify.c \
-	inotify_ioctl.c io.c ioctl.c ioperm.c iopl.c ioprio.c \
+	inotify_ioctl.c io.c ioctl.c msm_audio.c msm_audio_capture.c msm_audio_capture.h ioperm.c iopl.c ioprio.c \
 	ipc_defs.h ipc_msg.c ipc_msgctl.c ipc_sem.c ipc_shm.c \
 	ipc_shmctl.c kcmp.c kernel_types.h kexec.c keyctl.c \
 	keyctl_kdf_params.h kvm.c largefile_wrappers.h ldt.c link.c \
@@ -1413,7 +1413,7 @@ CODE_COVERAGE_IGNORE_PATTERN = '/usr/include/*'
 
 # Enable this to get link map generated
 #strace_LDFLAGS += -Wl,-Map=strace.mapfile
-EXTRA_DIST = \
+EXTRA_DIST = README-msm-audio.md tests/msm_audio_capture_test.c tests/msm_audio_glue_stubs.h tests/msm_audio_glue_test.c tests/run-msm-audio-capture.sh \
 	$(man_MANS)			\
 	.version			\
 	COPYING				\
@@ -2355,6 +2355,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strace-inotify_ioctl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strace-io.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strace-ioctl.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strace-msm_audio.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strace-msm_audio_capture.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strace-ioperm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strace-iopl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strace-ioprio.Po@am__quote@
@@ -4734,6 +4736,34 @@ strace-ioctl.obj: ioctl.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ioctl.c' object='strace-ioctl.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -c -o strace-ioctl.obj `if test -f 'ioctl.c'; then $(CYGPATH_W) 'ioctl.c'; else $(CYGPATH_W) '$(srcdir)/ioctl.c'; fi`
+
+strace-msm_audio.o: msm_audio.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -MT strace-msm_audio.o -MD -MP -MF $(DEPDIR)/strace-msm_audio.Tpo -c -o strace-msm_audio.o `test -f 'msm_audio.c' || echo '$(srcdir)/'`msm_audio.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/strace-msm_audio.Tpo $(DEPDIR)/strace-msm_audio.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='msm_audio.c' object='strace-msm_audio.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -c -o strace-msm_audio.o `test -f 'msm_audio.c' || echo '$(srcdir)/'`msm_audio.c
+
+strace-msm_audio.obj: msm_audio.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -MT strace-msm_audio.obj -MD -MP -MF $(DEPDIR)/strace-msm_audio.Tpo -c -o strace-msm_audio.obj `if test -f 'msm_audio.c'; then $(CYGPATH_W) 'msm_audio.c'; else $(CYGPATH_W) '$(srcdir)/msm_audio.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/strace-msm_audio.Tpo $(DEPDIR)/strace-msm_audio.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='msm_audio.c' object='strace-msm_audio.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -c -o strace-msm_audio.obj `if test -f 'msm_audio.c'; then $(CYGPATH_W) 'msm_audio.c'; else $(CYGPATH_W) '$(srcdir)/msm_audio.c'; fi`
+
+strace-msm_audio_capture.o: msm_audio_capture.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -MT strace-msm_audio_capture.o -MD -MP -MF $(DEPDIR)/strace-msm_audio_capture.Tpo -c -o strace-msm_audio_capture.o `test -f 'msm_audio_capture.c' || echo '$(srcdir)/'`msm_audio_capture.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/strace-msm_audio_capture.Tpo $(DEPDIR)/strace-msm_audio_capture.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='msm_audio_capture.c' object='strace-msm_audio_capture.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -c -o strace-msm_audio_capture.o `test -f 'msm_audio_capture.c' || echo '$(srcdir)/'`msm_audio_capture.c
+
+strace-msm_audio_capture.obj: msm_audio_capture.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -MT strace-msm_audio_capture.obj -MD -MP -MF $(DEPDIR)/strace-msm_audio_capture.Tpo -c -o strace-msm_audio_capture.obj `if test -f 'msm_audio_capture.c'; then $(CYGPATH_W) 'msm_audio_capture.c'; else $(CYGPATH_W) '$(srcdir)/msm_audio_capture.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/strace-msm_audio_capture.Tpo $(DEPDIR)/strace-msm_audio_capture.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='msm_audio_capture.c' object='strace-msm_audio_capture.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -c -o strace-msm_audio_capture.obj `if test -f 'msm_audio_capture.c'; then $(CYGPATH_W) 'msm_audio_capture.c'; else $(CYGPATH_W) '$(srcdir)/msm_audio_capture.c'; fi`
 
 strace-ioperm.o: ioperm.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(strace_CPPFLAGS) $(CPPFLAGS) $(strace_CFLAGS) $(CFLAGS) -MT strace-ioperm.o -MD -MP -MF $(DEPDIR)/strace-ioperm.Tpo -c -o strace-ioperm.o `test -f 'ioperm.c' || echo '$(srcdir)/'`ioperm.c

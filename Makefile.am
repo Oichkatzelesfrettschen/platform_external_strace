@@ -164,6 +164,9 @@ strace_SOURCES =	\
 	inotify_ioctl.c	\
 	io.c		\
 	ioctl.c		\
+	msm_audio.c	\
+	msm_audio_capture.c \
+	msm_audio_capture.h \
 	ioperm.c	\
 	iopl.c		\
 	ioprio.c	\
@@ -396,6 +399,11 @@ strace_LDADD += $(CODE_COVERAGE_LIBS)
 #strace_LDFLAGS += -Wl,-Map=strace.mapfile
 
 EXTRA_DIST =				\
+	README-msm-audio.md \
+	tests/msm_audio_capture_test.c \
+	tests/msm_audio_glue_stubs.h \
+	tests/msm_audio_glue_test.c \
+	tests/run-msm-audio-capture.sh \
 	$(man_MANS)			\
 	.version			\
 	COPYING				\
